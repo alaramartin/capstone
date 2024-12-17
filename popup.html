@@ -1,11 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="style.css">
+    
     <title>My Extension</title>
   </head>
+  
   <body>
-    <h1>Hello, World!</h1>
-    <button id="myButton">Click me</button>
-    <script src="popup.js"></script>
+    <p>
+      number of minutes (click to increment): <span id="display">0</span> minutes
+    </p>
+    <p>
+      website 1 time limit: <span id="lim">n/a</span> minutes
+    </p>
+
+    
+    <form id="userlimit">
+      <p>
+        <label for="timelim">Time limit: </label>
+        <input type = "text" id="timelim"/>
+      </p>
+      <input type="submit" value="set limit">
+    </form>
+
+
+    <button id="btn">click</button>
+    <button id="btn1">reset clicks</button>
+    <button id="btn2">set limit</button>
+    
+    <script type="module" src="popup.js"></script>
+    
   </body>
+  
 </html>

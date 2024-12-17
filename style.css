@@ -1,0 +1,27 @@
+* {
+    font-family: serif;
+    font-size: 17px;
+}
+
+body {
+    min-width: 300px;
+    max-width: 100%;
+    position: relative;
+    vertical-align:middle;
+
+    background-color: lightblue;
+
+    
+  }
+
+button, input[type=submit] {
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: white;
+
+    margin: 10px;
+}
+
+button:active, input[type=submit]:active {
+    background-color: lightgray;
+}
