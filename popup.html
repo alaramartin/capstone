@@ -7,26 +7,41 @@
   </head>
   
   <body>
+    <!--
     <p>
-      number of minutes (click to increment): <span id="display">0</span> minutes
+      number of clicks: <span id="display">0</span>
     </p>
-    <p>
-      website 1 time limit: <span id="lim">n/a</span> minutes
-    </p>
+    -->
 
-    
+    <!-- form for user input - inputting the website url and time limit in minutes -->
     <form id="userlimit">
       <p>
-        <label for="timelim">Time limit: </label>
-        <input type = "text" id="timelim"/>
+        <label for="timelim">Website URL: </label>
+        <input type = "text" id="timelimurl"/>
       </p>
-      <input type="submit" value="set limit">
+      <p>
+        <label for="timelim">Time Limit (in minutes): </label>
+        <input type = "number" id="timelimmin">
+      </p>
+      <input type="submit" value="Set Limit">
     </form>
 
+    <p>Time Limits Set</p>
+    <ul id="list-of-limits">
+      <!-- limits will be added here in a list -->
+    </ul>
 
+    <button id="reset">Reset Limits</button>
+
+    <p>Used Time</p>
+    <ul id="list-of-screen-time">
+      <!-- screen time spent will be added here in a list -->
+    </ul>
+
+<!--
     <button id="btn">click</button>
     <button id="btn1">reset clicks</button>
-    <button id="btn2">set limit</button>
+    -->
     
     <script type="module" src="popup.js"></script>
     
