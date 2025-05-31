@@ -3,6 +3,7 @@
   <head>
     <link rel="stylesheet" href="style.css">
     
+    
     <title>My Extension</title>
   </head>
   
@@ -13,15 +14,26 @@
     </p>
     -->
 
-    <!-- form for user input - inputting the website url and time limit in minutes -->
+    <!-- form for user input - inputting the website url and time limit -->
     <form id="userlimit">
       <p>
         <label for="timelim">Website URL: </label>
         <input type = "text" id="timelimurl"/>
       </p>
       <p>
-        <label for="timelim">Time Limit (in minutes): </label>
+        Time Limit:
+      </p>
+      <p>
+        <label for="timelim">Hours (0 if none): </label>
+        <input type = "number" id="timelimh">
+      </p>
+      <p>
+        <label for="timelim">Minutes (0 if none): </label>
         <input type = "number" id="timelimmin">
+      </p>
+      <p>
+        <label for="timelim">Seconds (0 if none): </label>
+        <input type = "number" id="timelimsec">
       </p>
       <input type="submit" value="Set Limit">
     </form>
@@ -33,10 +45,12 @@
 
     <button id="reset">Reset Limits</button>
 
-    <p>Used Time</p>
+    <p>Usage</p>
     <ul id="list-of-screen-time">
       <!-- screen time spent will be added here in a list -->
     </ul>
+
+    <button id="resetUsage">Reset Usage</button>
 
 <!--
     <button id="btn">click</button>
