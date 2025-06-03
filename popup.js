@@ -52,7 +52,10 @@ function displayTimeList(screenTime) {
     let timeList = document.getElementById("list-of-screen-time");
     timeList.innerHTML = "";
     for (const [key, value] of Object.entries(screenTime)) {
-        addItemToList(`Website: ${key}, usage: ${value.toFixed(2)} seconds`, timeList);
+        var hours = Math.floor(value/(60*60));
+        var minutes = Math.floor((value - hours*60*60)/60);
+        var seconds = (value - hours*60*60 - minutes*60).toFixed(2);
+        addItemToList(`Website: ${key}, usage: ${hours} hours, ${minutes} minutes, ${seconds} seconds`, timeList);
     }
 }
 

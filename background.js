@@ -222,11 +222,18 @@ async function blockSite(tab) {
     });
 }
 
-// alarm that triggers every 27 seconds to keep background script awake
+
+// TODO
+// alarm that triggers every 10 seconds to update the popup
 chrome.alarms.create({ 
-    delayInMinutes: 0.47,
-    periodInMinutes: 0.47
+    delayInMinutes: 0.16,
+    periodInMinutes: 0.16
 });
 chrome.alarms.onAlarm.addListener(() => {
   console.log("awake");
+  // display the list
+  chrome.runtime.sendMessage({
+    action: "list-of-screen-time",
+    data: screenTime
+  });
 });
