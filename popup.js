@@ -85,27 +85,13 @@ resetButton.addEventListener("click", function() {
     saveLimitsList(lims);
 });
 
+chrome.runtime.onMessage.addListener((message) => {
+    if (message.action === "reset-usage") {
+        loadTimeList();
+    }
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "list-of-screen-time") {
         console.log("Popup received update:", JSON.stringify(message.data));
         displayTimeList(message.data);
     }
-});
-
-// update the popup with new usage every 0.1 minute WHILE on the website
-// loadtimelist is being called every 6 seconds, but popup doesn't change?
-// OH it's because screenTime in background.js doesn't actually get updated until the tab is changed...
-// ^^ even considering that, i still don't know why it doesn't update when changing tab after more than 30 seconds. maybe timeout issue
-// ^^ probbaly fixed by setinterval, if background does something every millisecond it won't time out
-
-// (allat above) bad practice. chrome.alarms might be the solution to update every second
-// setInterval(loadTimeList, 6000)
-
-// TODO: MAKE SCREENTIME UPDATE CONTINUOUSLY using setInterval(updatetime) with no delay parameter to default to 0 ms
-// or could do every millisecond <- but what if tab is changed during that millisecond
-
-
-// it works when spending less than 30 seconds on the site:
-//    doesn't update automatically, but updates when switch the tab
-// but when spend more than 30 seconds on the popup, doesn't update automatically and also doesn't update when switch the tab
+})

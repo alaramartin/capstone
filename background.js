@@ -17,8 +17,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-
-
 // get the limits list
 async function loadLimitsList() {
   const result = await chrome.storage.local.get("limits");
@@ -32,7 +30,7 @@ async function saveTimeList(list) {
   await chrome.storage.local.set({ "timespent" : list });
 }
 
-// load the list of alarms (same idea as popup.js loadlist)
+// load the list of screen time usage (same idea as popup.js loadlist)
 async function loadTimeList() {
   const result = await chrome.storage.local.get("timespent");
   if (result.timespent == undefined) return {};
@@ -48,7 +46,35 @@ async function initialize() {
   lims = await loadLimitsList();
   console.log(screenTime, lims);
   timeoutId = null;
+
+  // create alarm that triggers at midnight every day to update the popup
+  chrome.alarms.create("reset-at-midnight", {
+    delayInMinutes: getMinutesUntilMidnight(),
+    periodInMinutes: 1440
+  });
 }
+
+function getMinutesUntilMidnight() {
+  const now = Date.now();
+  const MILLISECONDS_IN_A_DAY = 86400000;
+  const MILLISECONDS_IN_A_MINUTE = 60000;
+
+  var millisElapsed = now % MILLISECONDS_IN_A_DAY;
+  var minutesLeft = Math.floor((MILLISECONDS_IN_A_DAY - millisElapsed) / MILLISECONDS_IN_A_MINUTE);
+  return minutesLeft;
+}
+
+chrome.alarms.onAlarm.addListener(async (alarm) => {
+  if (alarm.name === "reset-at-midnight") {
+    // tell popup to reset the list of usage
+    chrome.runtime.sendMessage({
+      action: "reset-usage"
+    });
+    // reset usage and save locally
+    screenTime = {};
+    await saveTimeList(screenTime);
+  }
+})
 
 async function getCurrentTab() {
   let queryOptions = { active: true, lastFocusedWindow: true };
@@ -222,18 +248,13 @@ async function blockSite(tab) {
     });
 }
 
-
-// TODO
-// alarm that triggers every 10 seconds to update the popup
-chrome.alarms.create({ 
-    delayInMinutes: 0.16,
-    periodInMinutes: 0.16
+// alarm that triggers every 30 seconds to keep the popup awake
+chrome.alarms.create("keep-awake", { 
+    delayInMinutes: 0.5,
+    periodInMinutes: 0.5
 });
-chrome.alarms.onAlarm.addListener(() => {
-  console.log("awake");
-  // display the list
-  chrome.runtime.sendMessage({
-    action: "list-of-screen-time",
-    data: screenTime
-  });
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name === "keep-awake") {
+    console.log("awake");
+  }
 });
